@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI地理教育 - AI赋能教育，助力教师成长</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c5aa0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #2c5aa0;
+        }
+
+        /* Hero区域 */
+        .hero {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1a365d 100%);
+            color: white;
+            padding: 8rem 5% 4rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #f39c12;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #e67e22;
+        }
+
+        /* 通用部分样式 */
+        .section {
+            padding: 4rem 5%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2c5aa0;
+        }
+
+        /* 关于我们 */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-text h3 {
+            color: #2c5aa0;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .about-text p {
+            margin-bottom: 0.8rem;
+        }
+
+        .about-text ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .about-text li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .about-text li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        /* 服务产品 */
+        .services {
+            background: #f8f9fa;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-card h3 {
+            color: #2c5aa0;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            color: #f39c12;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        /* 课程详情 */
+        .courses {
+            background: #fff;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .course-card {
+            border: 2px solid #e8f0fe;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: box-shadow 0.3s;
+        }
+
+        .course-card:hover {
+            box-shadow: 0 8px 25px rgba(44,90,160,0.15);
+        }
+
+        .course-header {
+            background: linear-gradient(135deg, #2c5aa0, #1a365d);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .course-header h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .course-body {
+            padding: 1.5rem;
+        }
+
+        .course-body ul {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .course-body li {
+            padding: 0.3rem 0;
+            padding-left: 1.2rem;
+            position: relative;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .course-body li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #2c5aa0;
+        }
+
+        .course-price {
+            font-size: 1.3rem;
+            color: #f39c12;
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+
+        /* AI工具试用 */
+        .ai-trial {
+            background: #f0f4ff;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 1.8rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-card h4 {
+            color: #2c5aa0;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .tool-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .trial-btn {
+            display: inline-block;
+            background: #2c5aa0;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: background 0.3s;
+        }
+
+        .trial-btn:hover {
+            background: #1a365d;
+        }
+
+        /* 联系表单 */
+        .contact {
+            background: #f8f9fa;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+
+        .submit-button {
+            background: #2c5aa0;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        .submit-button:hover {
+            background: #1a365d;
+        }
+
+        .contact-info {
+            margin-top: 2rem;
+            text-align: center;
+            line-height: 2;
+        }
+
+        /* 页脚 */
+        .footer {
+            background: #1a365d;
+            color: white;
+            text-align: center;
+            padding: 2rem 5%;
+            line-height: 2;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">AI地理教育</div>
+        <ul class="nav-links">
+            <li><a href="#home">首页</a></li>
+            <li><a href="#about">关于我们</a></li>
+            <li><a href="#services">服务产品</a></li>
+            <li><a href="#courses">课程详情</a></li>
+            <li><a href="#ai-trial">AI工具试用</a></li>
+            <li><a href="#contact">联系我们</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero区域 -->
+    <section id="home" class="hero">
+        <h1>AI赋能教育，助力教师成长</h1>
+        <p>8年教育经验 | 地理教学专家 | AI教育创新实践者</p>
+        <a href="#contact" class="cta-button">立即咨询</a>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="section">
+        <h2 class="section-title">关于我们</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>AI地理教育咨询工作室</h3>
+                <p>我们专注于为中小学地理教师提供专业的发展支持和AI教育解决方案。</p>
+                <p>创始人拥有8年地理教学经验，深刻理解教育工作者的需求和挑战，致力于用AI技术赋能课堂，让每一位教师都能高效成长。</p>
+                <ul>
+                    <li>地理教学专业指导</li>
+                    <li>AI教育工具应用培训</li>
+                    <li>青年教师基本功比赛辅导</li>
+                    <li>教师编制考试指导</li>
+                    <li>教育咨询与职业规划</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务产品 -->
+    <section id="services" class="section services">
+        <h2 class="section-title">服务产品</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>📚 在线课程</h3>
+                <p>地理教学技能培训、AI教育工具应用、青年教师比赛指导等系列课程</p>
+                <div class="price">¥499 - ¥2999</div>
+                <a href="#courses" class="cta-button">了解更多</a>
+            </div>
+            <div class="service-card">
+                <h3>💬 1v1咨询</h3>
+                <p>个性化教学指导、职业规划咨询、比赛辅导等专业服务</p>
+                <div class="price">¥200 - ¥500/小时</div>
+                <a href="#contact" class="cta-button">预约咨询</a>
+            </div>
+            <div class="service-card">
+                <h3>🏢 企业内训</h3>
+                <p>为学校和教育机构提供定制化的教师培训和专业发展方案</p>
+                <div class="price">¥1万 - ¥5万/场</div>
+                <a href="#contact" class="cta-button">合作洽谈</a>
+            </div>
+            <div class="service-card">
+                <h3>🤖 AI工具订阅</h3>
+                <p>AI备课助手、教学设计生成器、智能批改系统等高效工具</p>
+                <div class="price">¥99 - ¥999/月</div>
+                <a href="#ai-trial" class="cta-button">免费试用</a>
+            </div>
+            <div class="service-card">
+                <h3>📝 教师编制考试指导</h3>
+                <p>针对教师编制笔试、面试全程辅导，地理学科专项突破，助你高效备考</p>
+                <div class="price">¥299 - ¥1999</div>
+                <a href="#contact" class="cta-button">立即报名</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 课程详情 -->
+    <section id="courses" class="section courses">
+        <h2 class="section-title">课程详情</h2>
+        <div class="courses-grid">
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>🎯 青年教师基本功特训营</h3>
+                    <span class="course-tag">热门推荐</span>
+                </div>
+                <div class="course-body">
+                    <p>专为备战青年教师基本功比赛设计，系统训练教学技能与课堂呈现</p>
+                    <ul>
+                        <li>教案设计与优化技巧</li>
+                        <li>课堂导入与情境创设</li>
+                        <li>板书设计与课件制作</li>
+                        <li>说课与答辩技巧训练</li>
+                        <li>往年真题解析与模拟</li>
+                    </ul>
+                    <div class="course-price">¥1999</div>
+                    <a href="#contact" class="cta-button" style="margin-top:0.5rem; display:inline-block;">立即报名</a>
+                </div>
+            </div>
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>🌏 地理AI备课实战课</h3>
+                    <span class="course-tag">效率提升</span>
+                </div>
+                <div class="course-body">
+                    <p>用AI工具将备课时间缩短50%，高质量产出地理教学内容</p>
+                    <ul>
+                        <li>ChatGPT生成教案与学案</li>
+                        <li>Gamma一键制作精美PPT</li>
+                        <li>AI地图与图表辅助教学</li>
+                        <li>视频资源快速剪辑整合</li>
+                        <li>AI批改作业与反馈系统</li>
+                    </ul>
+                    <div class="course-price">¥999</div>
+                    <a href="#contact" class="cta-button" style="margin-top:0.5rem; display:inline-block;">立即报名</a>
+                </div>
+            </div>
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>📝 教师编制考试冲刺班</h3>
+                    <span class="course-tag">高通过率</span>
+                </div>
+                <div class="course-body">
+                    <p>地理学科编制考试全面辅导，笔试+面试双线并进</p>
+                    <ul>
+                        <li>地理学科专业知识精讲</li>
+                        <li>教育学/心理学核心考点</li>
+                        <li>历年真题深度解析</li>
+                        <li>面试结构化答题训练</li>
+                        <li>模拟考试与一对一点评</li>
+                    </ul>
+                    <div class="course-price">¥1499</div>
+                    <a href="#contact" class="cta-button" style="margin-top:0.5rem; display:inline-block;">立即报名</a>
+                </div>
+            </div>
+            <div class="course-card">
+                <div class="course-header">
+                    <h3>🏠 班主任工作技能课</h3>
+                    <span class="course-tag">实战经验</span>
+                </div>
+                <div class="course-body">
+                    <p>8年班主任实战经验提炼，帮助教师高效做好班级管理与家校沟通</p>
+                    <ul>
+                        <li>班级文化建设与管理策略</li>
+                        <li>家校沟通技巧与场景演练</li>
+                        <li>学生心理问题识别与干预</li>
+                        <li>主题班会设计与实施</li>
+                        <li>班主任专业成长路径规划</li>
+                    </ul>
+                    <div class="course-price">¥799</div>
+                    <a href="#contact" class="cta-button" style="margin-top:0.5rem; display:inline-block;">立即报名</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI工具试用 -->
+    <section id="ai-trial" class="section ai-trial">
+        <h2 class="section-title">AI工具试用</h2>
+        <p style="text-align:center; color:#666; margin-bottom:2rem; max-width:600px; margin-left:auto; margin-right:auto;">
+            精选6款教育AI工具，注册即可免费体验核心功能，让AI成为你的教学好搭档
+        </p>
+        <div class="tools-grid">
+            <div class="tool-card">
+                <div class="tool-icon">🤖</div>
+                <h4>AI备课助手</h4>
+                <p>输入教学目标，自动生成完整教案、学案、板书设计，节省80%备课时间</p>
+                <a href="#contact" class="trial-btn">免费试用 →</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">🗺️</div>
+                <h4>地理知识图谱生成器</h4>
+                <p>自动生成地理知识结构图、思维导图，帮助学生构建完整知识体系</p>
+                <a href="#contact" class="trial-btn">免费试用 →</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">📊</div>
+                <h4>教学PPT一键生成</h4>
+                <p>基于Gamma技术，输入主题即生成精美课件，支持地理图表自动插入</p>
+                <a href="#contact" class="trial-btn">免费试用 →</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">✍️</div>
+                <h4>智能作业批改系统</h4>
+                <p>AI识别学生答案，自动批改、统计错误类型，生成个性化学习报告</p>
+                <a href="#contact" class="trial-btn">免费试用 →</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">💬</div>
+                <h4>家校沟通话术助手</h4>
+                <p>输入沟通场景，AI生成专业、得体的家长沟通话术，减少班主任工作压力</p>
+                <a href="#contact" class="trial-btn">免费试用 →</a>
+            </div>
+            <div class="tool-card">
+                <div class="tool-icon">📝</div>
+                <h4>编制考试题库系统</h4>
+                <p>地理学科 + 教育学考点智能刷题，自动分析薄弱环节，精准高效备考</p>
+                <a href="#contact" class="trial-btn">免费试用 →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section id="contact" class="section contact">
+        <h2 class="section-title">联系我们</h2>
+        <div class="contact-form">
+            <form id="consultationForm">
+                <div class="form-group">
+                    <label for="name">姓名 *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱 *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">电话</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="service">感兴趣的服务</label>
+                    <select id="service" name="service">
+                        <option value="">请选择</option>
+                        <option value="course">在线课程</option>
+                        <option value="consulting">1v1咨询</option>
+                        <option value="training">企业内训</option>
+                        <option value="ai-tools">AI工具订阅</option>
+                        <option value="bianzhi">教师编制考试指导</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">留言</label>
+                    <textarea id="message" name="message" rows="5" placeholder="请描述您的需求..."></textarea>
+                </div>
+                <button type="submit" class="submit-button">提交咨询</button>
+            </form>
+            <div class="contact-info">
+                <p>或直接联系：</p>
+                <p>📧 邮箱：1838716288@qq.com</p>
+                <p>💬 微信：LaoyanGeo</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>&copy; 2026 AI地理教育咨询工作室. All rights reserved.</p>
+        <p>AI赋能教育，助力每一位教师成长</p>
+    </footer>
+
+    <script>
+        // 表单提交处理
+        document.getElementById('consultationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('感谢您的咨询！我们会尽快与您联系。');
+            this.reset();
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
