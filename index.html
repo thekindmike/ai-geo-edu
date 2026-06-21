@@ -590,7 +590,12 @@
     <section id="contact" class="section contact">
         <h2 class="section-title">联系我们</h2>
         <div class="contact-form">
-            <form id="consultationForm">
+            <form id="consultationForm" action="https://formsubmit.co/1838716288@qq.com" method="POST">
+                <!-- FormSubmit 配置 -->
+                <input type="hidden" name="_subject" value="【AI地理教育】新的咨询提交">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_webhook" value="">
                 <div class="form-group">
                     <label for="name">姓名 *</label>
                     <input type="text" id="name" name="name" required>
@@ -620,6 +625,12 @@
                 </div>
                 <button type="submit" class="submit-button">提交咨询</button>
             </form>
+            <div id="formSuccess" style="display:none; background:#e8f5e9; border:1px solid #4caf50; border-radius:8px; padding:1.2rem; margin-top:1.5rem; text-align:center;">
+                <p style="margin:0; color:#2e7d32; font-size:1.1rem;">✅ 提交成功！我们已收到您的信息，会尽快与您联系。</p>
+            </div>
+            <div id="formError" style="display:none; background:#fbe9e7; border:1px solid #f44336; border-radius:8px; padding:1.2rem; margin-top:1.5rem; text-align:center;">
+                <p style="margin:0; color:#c62828; font-size:1.1rem;">⚠️ 提交失败，请直接添加微信 LaoyanGeo 联系我们。</p>
+            </div>
             <div class="contact-info">
                 <p>或直接联系：</p>
                 <p>📧 邮箱：1838716288@qq.com</p>
@@ -635,11 +646,45 @@
     </footer>
 
     <script>
-        // 表单提交处理
+        // 表单提交处理 - 通过FormSubmit发送到邮箱
         document.getElementById('consultationForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('感谢您的咨询！我们会尽快与您联系。');
-            this.reset();
+            var formData = new FormData(this);
+            var button = this.querySelector('.submit-button');
+            var originalText = button.textContent;
+            var successDiv = document.getElementById('formSuccess');
+            var errorDiv = document.getElementById('formError');
+            
+            button.textContent = '提交中...';
+            button.disabled = true;
+            successDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            
+            var data = {};
+            formData.forEach(function(value, key) { data[key] = value; });
+            
+            fetch('https://formsubmit.co/ajax/1838716288@qq.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(function(response) { return response.json(); })
+            .then(function(data) {
+                if (data.success === 'true' || data.success === true) {
+                    successDiv.style.display = 'block';
+                    document.getElementById('consultationForm').reset();
+                    successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    errorDiv.style.display = 'block';
+                }
+            })
+            .catch(function(error) {
+                errorDiv.style.display = 'block';
+            })
+            .finally(function() {
+                button.textContent = originalText;
+                button.disabled = false;
+            });
         });
 
         // 平滑滚动
