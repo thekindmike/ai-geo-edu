@@ -590,18 +590,6 @@
     <section id="contact" class="section contact">
         <h2 class="section-title">联系我们</h2>
         <div class="contact-form">
-            <!-- 方式一：微信引导（最推荐） -->
-            <div style="background:linear-gradient(135deg,#07c160,#06ad56); border-radius:12px; padding:2rem; text-align:center; margin-bottom:2rem; color:white;">
-                <h3 style="margin:0 0 0.5rem; font-size:1.4rem;">💬 扫码添加微信咨询</h3>
-                <p style="margin:0 0 1rem; opacity:0.9;">最快方式，实时响应</p>
-                <div style="background:white; border-radius:8px; padding:1rem; display:inline-block; margin-bottom:1rem;">
-                    <div id="qrcode" style="width:180px; height:180px; margin:0 auto;"></div>
-                </div>
-                <p style="margin:0; font-size:1.2rem; font-weight:bold;">微信号：LaoyanGeo</p>
-            </div>
-
-            <!-- 方式二：在线留言表单（通过邮件发送） -->
-            <h3 style="text-align:center; margin-bottom:1.5rem; color:#2c5aa0;">或填写下方表单，我们收到邮件后联系您</h3>
             <form id="consultationForm">
                 <div class="form-group">
                     <label for="name">姓名 *</label>
@@ -650,16 +638,6 @@
     </footer>
 
     <script>
-        // 生成微信二维码
-        new QRCode(document.getElementById('qrcode'), {
-            text: 'https://weixin.qq.com/r/LaoyanGeo',
-            width: 180,
-            height: 180,
-            colorDark: '#000000',
-            colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.H
-        });
-
         // 表单提交 - 通过mailto发送邮件，100%送达
         document.getElementById('consultationForm').addEventListener('submit', function(e) {
             e.preventDefault();
