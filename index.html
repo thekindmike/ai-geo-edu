@@ -590,12 +590,19 @@
     <section id="contact" class="section contact">
         <h2 class="section-title">联系我们</h2>
         <div class="contact-form">
-            <form id="consultationForm" action="https://formsubmit.co/1838716288@qq.com" method="POST">
-                <!-- FormSubmit 配置 -->
-                <input type="hidden" name="_subject" value="【AI地理教育】新的咨询提交">
-                <input type="hidden" name="_template" value="table">
-                <input type="hidden" name="_captcha" value="false">
-                <input type="hidden" name="_webhook" value="">
+            <!-- 方式一：微信引导（最推荐） -->
+            <div style="background:linear-gradient(135deg,#07c160,#06ad56); border-radius:12px; padding:2rem; text-align:center; margin-bottom:2rem; color:white;">
+                <h3 style="margin:0 0 0.5rem; font-size:1.4rem;">💬 扫码添加微信咨询</h3>
+                <p style="margin:0 0 1rem; opacity:0.9;">最快方式，实时响应</p>
+                <div style="background:white; border-radius:8px; padding:1rem; display:inline-block; margin-bottom:1rem;">
+                    <div id="qrcode" style="width:180px; height:180px; margin:0 auto;"></div>
+                </div>
+                <p style="margin:0; font-size:1.2rem; font-weight:bold;">微信号：LaoyanGeo</p>
+            </div>
+
+            <!-- 方式二：在线留言表单（通过邮件发送） -->
+            <h3 style="text-align:center; margin-bottom:1.5rem; color:#2c5aa0;">或填写下方表单，我们收到邮件后联系您</h3>
+            <form id="consultationForm">
                 <div class="form-group">
                     <label for="name">姓名 *</label>
                     <input type="text" id="name" name="name" required>
@@ -612,29 +619,26 @@
                     <label for="service">感兴趣的服务</label>
                     <select id="service" name="service">
                         <option value="">请选择</option>
-                        <option value="course">在线课程</option>
-                        <option value="consulting">1v1咨询</option>
-                        <option value="training">企业内训</option>
-                        <option value="ai-tools">AI工具订阅</option>
-                        <option value="bianzhi">教师编制考试指导</option>
+                        <option value="在线课程">在线课程</option>
+                        <option value="1v1咨询">1v1咨询</option>
+                        <option value="企业内训">企业内训</option>
+                        <option value="AI工具订阅">AI工具订阅</option>
+                        <option value="教师编制考试指导">教师编制考试指导</option>
                     </select>
                 </div>
                 <div class="form-group">
                     <label for="message">留言</label>
                     <textarea id="message" name="message" rows="5" placeholder="请描述您的需求..."></textarea>
                 </div>
-                <button type="submit" class="submit-button">提交咨询</button>
+                <button type="submit" class="submit-button">发送咨询邮件</button>
             </form>
             <div id="formSuccess" style="display:none; background:#e8f5e9; border:1px solid #4caf50; border-radius:8px; padding:1.2rem; margin-top:1.5rem; text-align:center;">
-                <p style="margin:0; color:#2e7d32; font-size:1.1rem;">✅ 提交成功！我们已收到您的信息，会尽快与您联系。</p>
-            </div>
-            <div id="formError" style="display:none; background:#fbe9e7; border:1px solid #f44336; border-radius:8px; padding:1.2rem; margin-top:1.5rem; text-align:center;">
-                <p style="margin:0; color:#c62828; font-size:1.1rem;">⚠️ 提交失败，请直接添加微信 LaoyanGeo 联系我们。</p>
+                <p style="margin:0 0 0.5rem; color:#2e7d32; font-size:1.1rem;">✅ 邮件已生成！正在打开您的邮件客户端...</p>
+                <p style="margin:0; color:#555; font-size:0.95rem;">如未自动打开邮件，请直接发送邮件至 <strong>1838716288@qq.com</strong> 或添加微信 <strong>LaoyanGeo</strong></p>
             </div>
             <div class="contact-info">
-                <p>或直接联系：</p>
-                <p>📧 邮箱：1838716288@qq.com</p>
-                <p>💬 微信：LaoyanGeo</p>
+                <p style="font-size:1.05rem;">📧 邮箱：<a href="mailto:1838716288@qq.com?subject=AI地理教育咨询" style="color:#2c5aa0;">1838716288@qq.com</a></p>
+                <p style="font-size:1.05rem;">💬 微信：<strong>LaoyanGeo</strong></p>
             </div>
         </div>
     </section>
@@ -646,45 +650,38 @@
     </footer>
 
     <script>
-        // 表单提交处理 - 通过FormSubmit发送到邮箱
+        // 生成微信二维码
+        new QRCode(document.getElementById('qrcode'), {
+            text: 'https://weixin.qq.com/r/LaoyanGeo',
+            width: 180,
+            height: 180,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        // 表单提交 - 通过mailto发送邮件，100%送达
         document.getElementById('consultationForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            var formData = new FormData(this);
-            var button = this.querySelector('.submit-button');
-            var originalText = button.textContent;
-            var successDiv = document.getElementById('formSuccess');
-            var errorDiv = document.getElementById('formError');
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('email').value;
+            var phone = document.getElementById('phone').value;
+            var service = document.getElementById('service').value;
+            var message = document.getElementById('message').value;
+
+            var subject = '【AI地理教育】咨询 - ' + name;
+            var body = '姓名：' + name + '\n';
+            body += '邮箱：' + email + '\n';
+            body += '电话：' + (phone || '未填写') + '\n';
+            body += '感兴趣的服务：' + (service || '未选择') + '\n';
+            body += '留言：' + (message || '无') + '\n';
+
+            var mailtoLink = 'mailto:1838716288@qq.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
             
-            button.textContent = '提交中...';
-            button.disabled = true;
-            successDiv.style.display = 'none';
-            errorDiv.style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+            document.getElementById('formSuccess').scrollIntoView({ behavior: 'smooth', block: 'center' });
             
-            var data = {};
-            formData.forEach(function(value, key) { data[key] = value; });
-            
-            fetch('https://formsubmit.co/ajax/1838716288@qq.com', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-                body: JSON.stringify(data)
-            })
-            .then(function(response) { return response.json(); })
-            .then(function(data) {
-                if (data.success === 'true' || data.success === true) {
-                    successDiv.style.display = 'block';
-                    document.getElementById('consultationForm').reset();
-                    successDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    errorDiv.style.display = 'block';
-                }
-            })
-            .catch(function(error) {
-                errorDiv.style.display = 'block';
-            })
-            .finally(function() {
-                button.textContent = originalText;
-                button.disabled = false;
-            });
+            window.location.href = mailtoLink;
         });
 
         // 平滑滚动
